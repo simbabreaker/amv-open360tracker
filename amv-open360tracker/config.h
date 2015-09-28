@@ -1,6 +1,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define CRIUS_SE            // Discomment if using Multiwii Crius SE v2.5 board
+#define MIN_DELTA 1         //Angulo mínimo entre el heading del tracker y el del avion, si es mayor que este ángulo movemos el tracker.
+#define MIN_PAN_SPEED 0     //Cantidad mínima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
+#define MAX_PAN_SPEED 300   //Cantidad máxima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
+
 /* Config file
  * created by Samuel Brucksch, edited by Raúl Ortega.
  *
@@ -14,10 +19,10 @@
 * angle is smaller or greater than this value, the angle will be corrected using PIDs.
 * 
 */ 
-#define P 5000 //5000 //default 2200
-#define I 100 //100 //default 280
-#define D 100 //1000 //default 20000
-#define MAX_PID_ERROR 10 // default 10 
+#define P 5000 //default 2200 #### NO TOCAR, NO SE USA
+#define I 100 //default 280 #### NO TOCAR, NO SE USA
+#define D 1000 //default 20000 #### NO TOCAR, NO SE USA
+#define MAX_PID_ERROR 10 // default 10  #### NO TOCAR, NO SE USAN
 /* #### Atmega 2560 ####
  *
  *  If using an APM or Atmega 2560 we do not need softserial, so uncomment if using an atema 2560
@@ -95,13 +100,13 @@
  *
  *  Enter PWM value of Servo for not moving
  */
-#define PAN_0 610 // default 1470
+#define PAN_0 620 // default 1470
 
 /* #### Pan servo minimum required speed ####
  *
  *  If the servo has problems to start a rotation when the speed is slow adjust this value until the tracker moves directly from each position
  */
-#define MIN_PAN_SPEED -25 // default 50
+//#define MIN_PAN_SPEED 0 // -25 // default 50  #### NO TOCAR, NO SE USAN
 
 /* #### Compass declination ####
  *
@@ -113,7 +118,7 @@
  *
  * set to 0 if you cannot find your declination!
  */
-#define DECLINATION 32 //default 32
+#define DECLINATION 0 //default 32
 
 /* #### Compass offset ####
  *
@@ -124,7 +129,7 @@
  * Range: 0 ... 3599
  *
  */
-#define OFFSET 2700 //default 900
+#define OFFSET 0 //2700 // 2700 //default 900
 
 /* #### DIY GPS / Fix Type ####
 *
@@ -194,7 +199,7 @@
 * The 1602 is the correct one.
 * The default I2C address for this LCD display is 0x3F
 */
-#define LCD_BANGGOOD_SKU166911 //default commented
+//#define LCD_BANGGOOD_SKU166911 //default commented
 
 /* ### Battery monitoring ###
  *

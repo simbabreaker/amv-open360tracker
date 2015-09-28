@@ -37,7 +37,7 @@ void calcTilt();
 void getError();
 void calculatePID();
 void getBatterieVoltage();
-
+int16_t delta;
 unsigned long time;
 unsigned long calib_timer;
 
@@ -246,7 +246,7 @@ void loop()
 {
   #ifdef SERVOTEST
     if (millis() - servoTimer > 500) {
-      Serial.print("Heading: "); Serial.print(trackerPosition.heading / 10);
+      Serial.print("Heading: "); Serial.print(trackerPosition.heading);
       Serial.print(" Target Heading: "); Serial.print(targetPosition.heading / 10);
       Serial.print(" PAN: "); Serial.print(PWMOutput);
       Serial.print(" TILT: "); Serial.print(_lasttilt);
@@ -320,17 +320,17 @@ void loop()
             //headings, alt, distance, sats
             lcd.setCursor(0, 0);
             #ifdef MFD
-                  sprintf(lcd_str, "H:%03u A:%03u", trackerPosition.heading / 10, targetPosition.heading / 10);
+                  sprintf(lcd_str, "H:%03u A:%03u", trackerPosition.heading, targetPosition.heading / 10);
                   lcd.print(lcd_str);
             #else
                   #ifdef BATTERYMONITORING
-                    sprintf(lcd_str, "H:%03u V%02u.%01u ", trackerPosition.heading / 10, (uint16_t)Bat_Voltage,(uint16_t)(Bat_Voltage*10)%10);
+                    sprintf(lcd_str, "H:%03u V%02u.%01u ", trackerPosition.heading, (uint16_t)Bat_Voltage,(uint16_t)(Bat_Voltage*10)%10);
                   #else 
                     //#ifdef RVOSD
                       //targetPosition.heading = getAzimut();
                       //sprintf(lcd_str, "H:%03u A:%03u ", trackerPosition.heading / 10, targetPosition.heading);
                     //#else
-                      sprintf(lcd_str, "H:%03u A:%03u ", trackerPosition.heading / 10, targetPosition.heading / 10);
+                      sprintf(lcd_str, "H:%03u A:%03u ", trackerPosition.heading, targetPosition.heading / 10);
                     //#endif
                   #endif
                   
@@ -396,7 +396,7 @@ void loop()
                 Serial.print("Target alt: "); Serial.print(targetPosition.alt);
                 Serial.print(" Target distance: "); Serial.print(targetPosition.distance);
                 Serial.print(" Target heading: "); Serial.print(targetPosition.heading / 10);
-                Serial.print(" Tracker heading: "); Serial.print(trackerPosition.heading / 10);
+                Serial.print(" Tracker heading: "); Serial.print(trackerPosition.heading);
                 Serial.print(" Target Sats: "); Serial.println(getSats());
             #endif //DEBUG
         #else
@@ -430,7 +430,7 @@ void loop()
               Serial.print("Lat: "); Serial.print(targetPosition.lat);
               Serial.print(" Lon: "); Serial.print(targetPosition.lon);
               Serial.print(" Distance: "); Serial.print(targetPosition.distance);
-              Serial.print(" Heading: "); Serial.print(trackerPosition.heading / 10);
+              Serial.print(" Heading: "); Serial.print(trackerPosition.heading);
               Serial.print(" Target Heading: "); Serial.print(targetPosition.heading / 10);
               #ifdef MAVLINK
                   Serial.print(" Target Sats: "); Serial.print(getSats());
@@ -638,12 +638,12 @@ void calcTilt() {
 
 void getError(void)
 {
-  // shift error values
+  /*// shift error values
   for (byte i = 0; i < 10; i++) {
     Error[i + 1] = Error[i];
   }
 
-  int16_t delta = targetPosition.heading - trackerPosition.heading;
+  /*int16_t* delta = targetPosition.heading - trackerPosition.heading;
   if (delta > 1800) {
     delta -= 3600;
   }
@@ -651,12 +651,22 @@ void getError(void)
     delta += 3600;
   }
   // load new error into top array spot
-  Error[0] = delta;
+  /*Error[0] = delta;*/
+  
+  delta=trackerPosition.heading-targetPosition.heading/10;
+  if (delta > 180) {
+    delta -= 360;
+  }
+  else if (delta < -180) {
+    delta += 360;
+  }
+  //Serial.print("H: ");Serial.print(trackerPosition.heading);Serial.print(" A: ");Serial.print(targetPosition.heading/10);
+  //Serial.print(" ERROR: ");Serial.print(delta);
 }
 
 void calculatePID(void)
 {
-#ifndef MAX_PID_ERROR
+/*#ifndef MAX_PID_ERROR
   #define MAX_PID_ERROR 10
 #endif
   // Calculate the PID
@@ -706,7 +716,25 @@ void calculatePID(void)
   } else {
     PWMOutput = PAN_0;
   }
-#endif
+#endif*/
+    
+    int PAN_SPEED;
+    
+    PAN_SPEED=map(abs(delta), MIN_DELTA, 180, MIN_PAN_SPEED, MAX_PAN_SPEED);
+    
+    if(abs(delta)<=MIN_DELTA)
+      PWMOutput = PAN_0;
+    if (delta<0)
+      PWMOutput = PAN_0 + PAN_SPEED;
+    else if(delta>0)
+      PWMOutput = PAN_0 - PAN_SPEED;
+
+    #if SERVOTEST
+      Serial.print(" PAN_0: ");Serial.print(PAN_0);
+      Serial.print(" PAN_SPEED: ");Serial.print(PAN_SPEED);
+      Serial.print(" PWMOutput: ");Serial.println(PWMOutput);
+    #endif
+    
 }
 
 #ifdef LOCAL_GPS

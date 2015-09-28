@@ -196,10 +196,26 @@ int getHeading() {
   double heading = atan2((magADC[1]* magGain[1]) - magZero[1], (magADC[0]* magGain[0]) - magZero[0]) ;
   
   if (heading < 0)
-    heading += 2 * M_PI;
+    heading += 2 * PI;
 
-  if (heading > 2 * M_PI)
-    heading -= 2 * M_PI;
+  if (heading > 2 * PI)
+    heading -= 2 * PI;
 
-  return (int) ((heading * 1800.0 / M_PI) + DECLINATION + OFFSET) % 3600;
+   #ifdef CRIUS_SE
+    #define MAG_CORRECTION 270
+   #else
+    #define MAG_CORRECTION 0
+   #endif
+ 
+  /*return (int) ((heading * 1800.0 / M_PI) + DECLINATION + OFFSET) % 3600;*/
+   
+
+   /*int temp=(int)(heading*180/M_PI+MAG_CORRECTION+DECLINATION+OFFSET)%360;
+   Serial.print(heading);
+   Serial.print(" ");
+   Serial.println(temp);
+   
+   delay(200);*/
+   return (int)(heading*180/M_PI+MAG_CORRECTION+DECLINATION+OFFSET)%360;
+  
 }
