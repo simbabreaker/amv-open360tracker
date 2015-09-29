@@ -202,7 +202,7 @@ int getHeading() {
     heading -= 2 * PI;
 
    #ifdef CRIUS_SE
-    #define MAG_CORRECTION 270
+    #define MAG_CORRECTION 2700
    #else
     #define MAG_CORRECTION 0
    #endif
@@ -216,6 +216,6 @@ int getHeading() {
    Serial.println(temp);
    
    delay(200);*/
-   return (int)(heading*180/M_PI+MAG_CORRECTION+DECLINATION+OFFSET)%360;
+   return (int)(heading*1800.0/M_PI+MAG_CORRECTION+DECLINATION+OFFSET*10)%3600;
   
 }
