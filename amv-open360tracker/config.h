@@ -3,8 +3,8 @@
 
 #define CRIUS_SE            // Discomment if using Multiwii Crius SE v2.5 board
 #define MIN_DELTA     0.1   //Angulo mínimo en grados entre el heading del tracker y el del avion, si es mayor que este ángulo movemos el tracker.
-#define MIN_PAN_SPEED   0   //Cantidad mínima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
-#define MAX_PAN_SPEED 200   //Cantidad máxima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
+#define MIN_PAN_SPEED  15   //Cantidad mínima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
+#define MAX_PAN_SPEED 300   //Cantidad máxima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
 #define MAP_ANGLE      90   //Ángulo en grados a partir del cual se empieza a mapear el error del ángulo a gradiente de velocidades.
 
 /* Config file
