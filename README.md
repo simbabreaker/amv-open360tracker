@@ -1,8 +1,8 @@
 # amv-open360tracker v0.5C
 ---------------------
-# Novedades en esta versión:
+#VERSION EXPERIMENTAL. NOVEDADES:
 
-* Se ha sustituido el sistema de control de PID del movimiento de servo PAN por un sistema de corrección de error proporcional, que mapea el error entre 
+* Se ha sustituido el sistema de control de PID del movimiento de servo PAN por un sistema de corrección de error proporcional, que mapea el error entre el heading del tracker y el heading del aeromodelo a un rango de pulsos para el servo en base a los siguientes parámetros:
 
 * MIN_DELTA     0.1   Angulo mínimo en grados entre el heading del tracker y el del aeromodelo, si es mayor que este ángulo movemos el tracker.
 
