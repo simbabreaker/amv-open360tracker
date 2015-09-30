@@ -6,15 +6,15 @@
 
 * MIN_DELTA     0.1   Angulo mínimo en grados entre el heading del tracker y el del aeromodelo, si es mayor que este ángulo movemos el tracker.
 
-* MIN_PAN_SPEED  15   Cantidad mínima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
+* MIN_PAN_SPEED  15   Cantidad mínima en milisegundos que hay que incrementar el pulso del PAN_0 para que se mueva.
 
-* MAX_PAN_SPEED 300   Cantidad máxima en milisegundos que hay que incrementar el pulso del pan para que se mueva.
+* MAX_PAN_SPEED 300   Cantidad máxima en milisegundos que hay que incrementar el pulso del PAN_0 para que se mueva.
 
-* MAP_ANGLE      90   Ángulo en grados a partir del cual se empieza a mapear el error del ángulo a gradiente de velocidades.
+* MAP_ANGLE      90   Ángulo en grados a partir del cual se empieza a mapear el error del ángulo al gradiente de pulsos.
 
-* Se ha corregido el OFFSET para la crius se, ya no es necesario indicar un OFFSET DE 2700 cuando está mirando hacia el frente. Si se cambia de posición la controladora, habrá que indicar un offest en función de los grados desplazados, sin multiplicar por 10.
+* También se ha corregido el OFFSET para la controladora Crius SE, ya no es necesario indicar un OFFSET DE 2700 cuando está mirando hacia el frente. Si se cambia de posición la controladora, habrá que indicar un OFFSET en función de los grados desplazados, sin multiplicar por 10.
 
-* Las correcciones realizadas en esta versión son únicamente experimentales, esta versión no debe sustituir en ningún momento a la versión master. Úsala bajo tu propio riesgo.
+# Las correcciones realizadas en esta versión son únicamente experimentales, esta versión no debe sustituir en ningún momento a la versión master. Úsala bajo tu propio riesgo.
 
 
 ---------------------
